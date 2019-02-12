@@ -2,7 +2,7 @@ __author__ = 'Kyle Vitautas Lopin'
 
 import matplotlib.pyplot as plt
 import run_simulations as rs
-import Tkinter as tk
+import tkinter as tk
 
 def MakeSimulationWindow(self):
     """

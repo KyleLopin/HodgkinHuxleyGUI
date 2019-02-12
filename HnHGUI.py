@@ -1,13 +1,12 @@
-from __future__ import division
-
 __author__ = 'Kyle Vitautas Lopin'
 
 """
 User Interface that simulates Hodgkin and Huxley equations for the gaint axon of a squid
 """
 
-import Tkinter as tk
+import tkinter as tk
 
+import hh_graphs
 import init_widgets as iw
 import pack_widgets as pw
 import run_simulations as rs
@@ -42,7 +41,18 @@ gate_parameters = {
     'beta_h_slope'  : 10.
 }
 
+
 class Hodgkin_Huxley_GUI(tk.Frame, object):
+    """
+    Class to create a graphical user interface for people to explore the properties of the
+    Hodgkin Huxley model of a gaint axon of a squid
+    """
+    def __init__(self, master):
+        tk.Frame.__init__(self, master)
+
+
+
+class Hodgkin_Huxley_GUIold(tk.Frame, object):
     """
     Class to create a graphical user interface for people to explore the properties of the
     Hodgkin Huxley model of a gaint axon of a squid

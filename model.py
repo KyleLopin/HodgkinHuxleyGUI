@@ -1,17 +1,13 @@
-from __future__ import division
-
-__author__ = 'Kyle Vitautas Lopin'
+# Copyright (c) 2018 Kyle Lopin (Naresuan University) <kylel@nu.ac.th>
 
 """
-Custom class to create vectors of the alpha and betas of the n,m, and h gates of a hodgkin huxley model
+Model classes to simulate a Hodgkin and Huxley neuron model.
 """
 
-from numpy import arange, zeros, exp, vectorize
+__author__ = "Kyle Vitatus Lopin"
 
-class Object(object):
-    pass
 
-class Model_Gates(object):
+class ModelGates(object):
     """
     take in parameter dictionary and make the vectors of alpha and betas in a voltage look up table
     """

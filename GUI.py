@@ -1,16 +1,20 @@
 from __future__ import division
 
-__author__ = 'Kyle'
+__author__ = 'Kyle Vitautas Lopin'
 
 from numpy import arange, vectorize, exp, zeros
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 # from matplotlib import rcParams
-import Tkinter as tk
+
+import tkinter as tk
 from matplotlib.font_manager import FontProperties
 import matplotlib.pyplot as plt
 
 font_gate_legend = FontProperties()
 font_gate_legend.set_size('medium')
+
+import hh_graphs
+import parameter_frame as param_frame
 
 # rcParams.update({'figure.autolayout': True})
 
@@ -72,16 +76,16 @@ def MakeParameterFrame():
     right_frame = tk.Frame(param_master, bd=2)
 
     # right_frame.config(background='red')
+    cap_label   = tk.Label(param_master, text="Cm=1 \u03BcF/cm\u00b2")
 
-    cap_label   = tk.Label(param_master, text="Cm=1 uF/Cm^2")
 
-    gNa_label   = tk.Label(right_frame, text="gNa    = 120 mS/cm^2")
-    gK_label    = tk.Label(right_frame, text="gK      = 36   mS/cm^2")
-    gleak_label = tk.Label(right_frame, text="gLeak = 0.3  mS/cm^2")
+    gNa_label   = tk.Label(right_frame, text="g(Na)    = 120 mS/cm^2")
+    gK_label    = tk.Label(right_frame, text="g(K)      = 36   mS/cm^2")
+    gleak_label = tk.Label(right_frame, text="g(Leak) = 0.3  mS/cm^2")
 
-    E_Na_label = tk.Label(left_frame, text="E Na   = 115 mV")
-    E_K_label  = tk.Label(left_frame, text="E K     = -12 mV")
-    E_leak_label = tk.Label(left_frame, text="E leak = 10.613 mV")
+    E_Na_label = tk.Label(left_frame, text="E(Na)   = 115 mV")
+    E_K_label  = tk.Label(left_frame, text="E(K)     = -12 mV")
+    E_leak_label = tk.Label(left_frame, text="E(leak) = 10.613 mV")
 
     cap_label.pack(side="top")
 
@@ -117,7 +121,7 @@ def MakeGatingGraph():
     return gates_bed
 
 def MakeGatingParameters():
-    gating_param_frame=tk.Frame()
+    gating_param_frame = tk.Frame()
 
 def RunSimulation():
     dt = 0.025
@@ -135,7 +139,7 @@ def RunSimulation():
     I = zeros(len(time))
     for i, t in enumerate(time):
         if 5 <= t <= 30: I[i] = 10 # uA/cm2
-    print I
+    print(I)
     for i in range(1,len(time)):
         g_Na = gbar_Na*(m**3)*h
         g_K  = gbar_K*(n**4)
@@ -179,11 +183,12 @@ def init_menu():
 
 root = tk.Tk()
 root.title("Hodgkin and Huxley Simulator")
-root.geometry("950x600")
+root.geometry("1050x800")
 
 simulation_figure_bed, root.simulation_voltage_axis, root.simulation_current_axis = MakeSimulationWindow()
 
-parameter_frame = MakeParameterFrame()
+# parameter_frame = MakeParameterFrame()
+parameter_frame = param_frame.ParameterFrame(root)
 
 gating_bed = MakeGatingGraph()
 
@@ -194,15 +199,18 @@ simulations_master_frame = tk.Frame()
 
 init_menu()
 
-root.simulation_canvas = FigureCanvasTkAgg(simulation_figure_bed, master=simulations_master_frame)
-root.simulation_canvas._tkcanvas.config(highlightthickness=0)
-root.simulation_canvas.draw()
-root.simulation_canvas.get_tk_widget().pack(anchor="nw")
 
-root.gate_simulation_canvas = FigureCanvasTkAgg(root.gates_time_graph_bed, master=simulations_master_frame)
-root.gate_simulation_canvas._tkcanvas.config(highlightthickness=0)
-root.gate_simulation_canvas.draw()
-root.gate_simulation_canvas.get_tk_widget().pack(anchor="sw")
+simulation_graphs = hh_graphs.HHGateFrame(root)
+simulation_graphs.pack(side=tk.LEFT)
+# root.simulation_canvas = FigureCanvasTkAgg(simulation_figure_bed, master=simulations_master_frame)
+# root.simulation_canvas._tkcanvas.config(highlightthickness=0)
+# root.simulation_canvas.draw()
+# root.simulation_canvas.get_tk_widget().pack(anchor="nw")
+#
+# root.gate_simulation_canvas = FigureCanvasTkAgg(root.gates_time_graph_bed, master=simulations_master_frame)
+# root.gate_simulation_canvas._tkcanvas.config(highlightthickness=0)
+# root.gate_simulation_canvas.draw()
+# root.gate_simulation_canvas.get_tk_widget().pack(anchor="sw")
 
 simulations_master_frame.pack(side="left")
 # gating_canvas = FigureCanvasTkAgg(gating_bed, master=root)
@@ -210,7 +218,7 @@ simulations_master_frame.pack(side="left")
 # gating_canvas.draw()
 # gating_canvas.get_tk_widget().pack(side="right", anchor="n")
 
-parameter_frame.pack(side="top", fill="x", padx=15)
+parameter_frame.pack(side="top", fill="x")
 
 run_button = tk.Button(root, text="Run Simulation", command=lambda:UpdateSimulationWindow())
 run_button.pack(side="bottom")

@@ -110,7 +110,7 @@ def Make_n_GateRateWindow(self):
     pass
 
 def Draw_gK(self, _value):
-    print _value
+    print(_value)
     if _value == 0 and hasattr(self.line, 'gK'):
         self.line_gK.remove()
     if _value == 1 and hasattr(self.sim, 'gK'):
