@@ -18,13 +18,6 @@ class ParameterFrame(tk.Frame):
         right_frame = tk.Frame(self, bd=2)
 
         cap_label = tk.Label(self, text="Cm=1 \u03BcF/cm\u00b2")
-        # cap_label = tk.Text(param_master, width=15, height=2, borderwidth=0,
-        #                     background=param_master.cget("background"),
-        #                     font='helvetica 12')
-        # cap_label.tag_configure("subscript", offset=-4)
-        # cap_label.insert("insert", "C", "", "m", "subscript", "=1 \u03BcF/C", "", "m", "subscript", "\u00b2")
-        # cap_label.configure(state="disabled")
-        # cap_label.pack(side="top")
 
         gNa_label = tk.Label(right_frame, text="g(Na)    = 120 mS/cm\u00b2")
         gK_label = tk.Label(right_frame, text="g(K)      = 36   mS/cm\u00b2")

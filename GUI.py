@@ -69,38 +69,6 @@ def MakeGatesWithTimeWindow():
 
     return gating_simulation_bed, gating_simulation_axis
 
-def MakeParameterFrame():
-    param_master = tk.Frame(bd=2)
-
-    left_frame = tk.Frame(param_master, bd=2)
-    right_frame = tk.Frame(param_master, bd=2)
-
-    # right_frame.config(background='red')
-    cap_label   = tk.Label(param_master, text="Cm=1 \u03BcF/cm\u00b2")
-
-
-    gNa_label   = tk.Label(right_frame, text="g(Na)    = 120 mS/cm^2")
-    gK_label    = tk.Label(right_frame, text="g(K)      = 36   mS/cm^2")
-    gleak_label = tk.Label(right_frame, text="g(Leak) = 0.3  mS/cm^2")
-
-    E_Na_label = tk.Label(left_frame, text="E(Na)   = 115 mV")
-    E_K_label  = tk.Label(left_frame, text="E(K)     = -12 mV")
-    E_leak_label = tk.Label(left_frame, text="E(leak) = 10.613 mV")
-
-    cap_label.pack(side="top")
-
-    gNa_label.pack(side="top", anchor="w")
-    gK_label.pack(side="top", anchor="w")
-    gleak_label.pack(side="top", anchor="w")
-
-    E_Na_label.pack(side="top", anchor="w")
-    E_K_label.pack(side="top", anchor="w")
-    E_leak_label.pack(side="top", anchor="w")
-
-    left_frame.pack(side="left", ipadx=10)
-    right_frame.pack(side="right", ipadx=10)
-
-    return param_master
 
 def MakeGatingGraph():
     gates_bed = plt.figure(figsize=(4.5, 2.8))
@@ -195,28 +163,11 @@ gating_bed = MakeGatingGraph()
 root.gates_time_graph_bed, root.gates_time_graph_axis = MakeGatesWithTimeWindow()
 
 # UpdateSimulationWindow(simulation_plot)
-simulations_master_frame = tk.Frame()
-
 init_menu()
 
 
 simulation_graphs = hh_graphs.HHGateFrame(root)
-simulation_graphs.pack(side=tk.LEFT)
-# root.simulation_canvas = FigureCanvasTkAgg(simulation_figure_bed, master=simulations_master_frame)
-# root.simulation_canvas._tkcanvas.config(highlightthickness=0)
-# root.simulation_canvas.draw()
-# root.simulation_canvas.get_tk_widget().pack(anchor="nw")
-#
-# root.gate_simulation_canvas = FigureCanvasTkAgg(root.gates_time_graph_bed, master=simulations_master_frame)
-# root.gate_simulation_canvas._tkcanvas.config(highlightthickness=0)
-# root.gate_simulation_canvas.draw()
-# root.gate_simulation_canvas.get_tk_widget().pack(anchor="sw")
-
-simulations_master_frame.pack(side="left")
-# gating_canvas = FigureCanvasTkAgg(gating_bed, master=root)
-# gating_canvas._tkcanvas.config(highlightthickness=0)
-# gating_canvas.draw()
-# gating_canvas.get_tk_widget().pack(side="right", anchor="n")
+simulation_graphs.pack(fill=tk.BOTH, expand=1, side=tk.LEFT)
 
 parameter_frame.pack(side="top", fill="x")
 
