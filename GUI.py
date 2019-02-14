@@ -19,7 +19,7 @@ import parameter_frame as param_frame
 # rcParams.update({'figure.autolayout': True})
 
 FIGUREBACKGROUND = "#F0F0F0"
-time_range = [0, 55]
+time_range = [0, 45]
 
 V_rest  = 0      # mV
 Cm      = 1      # uF/cm2
@@ -91,13 +91,17 @@ def MakeGatingGraph():
 def MakeGatingParameters():
     gating_param_frame = tk.Frame()
 
-def RunSimulation():
+def RunSimulation(current):
+    print("Run simulation", current)
     dt = 0.025
     time=arange(time_range[0], time_range[1]+dt, dt)
     Vm = zeros(len(time))
     g_Na_array = zeros(len(time))
     g_K_array  = zeros(len(time))
     g_l_array  = zeros(len(time))
+    m_array = zeros(len(time))
+    h_array = zeros(len(time))
+    n_array = zeros(len(time))
     Vm[0] = V_rest
     m = m_inf(V_rest)
     h = h_inf(V_rest)
@@ -106,8 +110,8 @@ def RunSimulation():
     ## Stimulus
     I = zeros(len(time))
     for i, t in enumerate(time):
-        if 5 <= t <= 30: I[i] = 10 # uA/cm2
-    print(I)
+        if 5 <= t <= 30: I[i] = current  # uA/cm2
+
     for i in range(1,len(time)):
         g_Na = gbar_Na*(m**3)*h
         g_K  = gbar_K*(n**4)
@@ -121,20 +125,26 @@ def RunSimulation():
         h += dt*(alpha_h(Vm[i-1])*(1 - h) - beta_h(Vm[i-1])*h)
         n += dt*(alpha_n(Vm[i-1])*(1 - n) - beta_n(Vm[i-1])*n)
 
+        m_array[i] = m
+        h_array[i] = h
+        n_array[i] = n
+
         Vm[i] = Vm[i-1] + (I[i-1] - g_Na*(Vm[i-1] - E_Na) - g_K*(Vm[i-1] - E_K)
                            - g_l*(Vm[i-1] - E_l)) / Cm * dt
-    return time, Vm, I, g_Na_array, g_K_array, g_l_array
+    return time, Vm, I, g_Na_array, g_K_array, g_l_array, m_array, h_array, n_array
 
-def UpdateSimulationWindow():
-    time, Vm, I, gNa, gK, gleak = RunSimulation()
+def UpdateSimulationWindow(current):
+    time, Vm, I, gNa, gK, gleak, m, h, n = RunSimulation(current)
 
-    root.simulation_voltage_axis.plot(time, Vm)
-    root.simulation_current_axis.plot(time, I, 'g')
-    root.simulation_canvas.draw()
+    simulation_graphs.update_graph(time, Vm, I, gNa, gK, gleak, m, h, n)
 
-    root.gates_time_graph_axis.plot(time, gNa, time, gK)
-    root.gates_time_graph_axis.set_ylim([0, max(gNa)*1.1])
-    root.gate_simulation_canvas.draw()
+    # root.simulation_voltage_axis.plot(time, Vm)
+    # root.simulation_current_axis.plot(time, I, 'g')
+    # root.simulation_canvas.draw()
+
+    # root.gates_time_graph_axis.plot(time, gNa, time, gK)
+    # root.gates_time_graph_axis.set_ylim([0, max(gNa)*1.1])
+    # root.gate_simulation_canvas.draw()
 
 def init_menu():
     menubar = tk.Menu(root)
@@ -170,11 +180,15 @@ simulation_graphs = hh_graphs.HHGateFrame(root)
 simulation_graphs.pack(fill=tk.BOTH, expand=1, side=tk.LEFT)
 
 parameter_frame.pack(side="top", fill="x")
+applied_stimulus_bar = tk.Scale(root, from_=-10, to=40, resolution=0.1, orient='horizontal', sliderlength=20,
+                                length=300)
+applied_stimulus_bar.set(10)
+run_button = tk.Button(root, text="Run Simulation", command=lambda: UpdateSimulationWindow(applied_stimulus_bar.get()))
 
-run_button = tk.Button(root, text="Run Simulation", command=lambda:UpdateSimulationWindow())
-run_button.pack(side="bottom")
+run_button.pack(side=tk.BOTTOM, pady=10)
+applied_stimulus_bar.pack(side=tk.BOTTOM)
 
-plt.subplots_adjust(bottom=0.15)
-plt.subplots_adjust(left=0.15)
+# plt.subplots_adjust(bottom=0.15)
+# plt.subplots_adjust(left=0.15)
 
 tk.mainloop()

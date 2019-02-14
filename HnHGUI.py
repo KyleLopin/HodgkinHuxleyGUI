@@ -42,7 +42,7 @@ gate_parameters = {
 }
 
 
-class Hodgkin_Huxley_GUI(tk.Frame, object):
+class Hodgkin_Huxley_GUInew(tk.Frame, object):
     """
     Class to create a graphical user interface for people to explore the properties of the
     Hodgkin Huxley model of a gaint axon of a squid
@@ -52,7 +52,7 @@ class Hodgkin_Huxley_GUI(tk.Frame, object):
 
 
 
-class Hodgkin_Huxley_GUIold(tk.Frame, object):
+class Hodgkin_Huxley_GUI(tk.Frame, object):
     """
     Class to create a graphical user interface for people to explore the properties of the
     Hodgkin Huxley model of a gaint axon of a squid
@@ -93,13 +93,6 @@ class Hodgkin_Huxley_GUIold(tk.Frame, object):
         simulation_options_frame.pack(side="left")
 
         options_frame.pack(side="bottom")
-
-
-
-
-
-
-
 
 
 def main():
