@@ -100,7 +100,7 @@ def main():
     call the custom class the Hodgkin and Huxley GUI is in
     :return:
     """
-    root=tk.Tk()
+    root = tk.Tk()
     root.title("Hodgkin and Huxley Simulator")
     root.geometry("950x600")
     Hodgkin_Huxley_GUI(root)

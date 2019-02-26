@@ -40,55 +40,13 @@ beta_m = lambda v: 4*exp(-v/18)
 m_inf = lambda v: alpha_m(v)/(alpha_m(v) + beta_m(v))
 
 # Na channel (inactivating)
-alpha_h = lambda v: 0.07*exp(-v/20)
+# alpha_h = lambda v: 0.07*exp(-v/20)
+def alpha_h(v):
+    return 0.07*exp(-v/20)
 beta_h  = lambda v: 1/(exp((-v + 30)/10) + 1)
 h_inf   = lambda v: alpha_h(v)/(alpha_h(v) + beta_h(v))
 
-def MakeSimulationWindow():
-    simulation_figure_bed = plt.figure(figsize=(7, 3.7))
-    # simulation_figure_bed.set_facecolor(FIGUREBACKGROUND)
-    simulation_plot_axis_voltage = simulation_figure_bed.add_subplot(111)
-    plt.ylabel("Membrane potential (mV)", fontsize=12)
-    plt.xlabel("time (msec)", fontsize=12)
-    plt.xlim(time_range)
-    plt.ylim([-100, 120])
-    plt.title("Simulation Window")
-    plt.subplots_adjust(bottom=0.14, left=0.16)
-    simulation_plot_axis_current = simulation_plot_axis_voltage.twinx()
-    simulation_plot_axis_current.set_ylabel("Input current (uA/cm2)")
-    simulation_plot_axis_current.set_ylim([-30, 100])
-    return simulation_figure_bed, simulation_plot_axis_voltage, simulation_plot_axis_current
-
-def MakeGatesWithTimeWindow():
-    gating_simulation_bed = plt.figure(figsize=(7,3.3))
-    gating_simulation_axis = gating_simulation_bed.add_subplot(111)
-    plt.ylabel("conductance (mS/cm^2)", fontsize=12)
-    plt.xlabel("time (msec)", fontsize=12)
-    plt.xlim(time_range)
-    plt.ylim([0, 50])
-
-    return gating_simulation_bed, gating_simulation_axis
-
-
-def MakeGatingGraph():
-    gates_bed = plt.figure(figsize=(4.5, 2.8))
-    gates_plot_area = gates_bed.add_subplot(111)
-    plt.ylabel("fraction of channels", fontsize=12)
-    plt.xlabel("Membrane potential (mV)", fontsize=12)
-    plt.xlim([-50, 150])
-    plt.ylim([0, 1])
-    plt.title("Gating steady state values", fontsize=12, y=1)
-    plt.subplots_adjust(left=0.16, bottom=0.1)
-    voltage = arange(-50, 151)  # mV
-    gates_plot_area.plot(voltage, m_inf(voltage), voltage, h_inf(voltage),
-                         voltage, n_inf(voltage))
-    gates_plot_area.legend(("m gate", "h gate", "n gate"),
-                                        loc="lower right", prop=font_gate_legend,
-                                        frameon=False, borderpad=0, handletextpad=0,
-                                        labelspacing=0)
-    return gates_bed
-
-def MakeGatingParameters():
+def MakeGatingParametersold():
     gating_param_frame = tk.Frame()
 
 def RunSimulation(current):
@@ -163,14 +121,14 @@ root = tk.Tk()
 root.title("Hodgkin and Huxley Simulator")
 root.geometry("1050x800")
 
-simulation_figure_bed, root.simulation_voltage_axis, root.simulation_current_axis = MakeSimulationWindow()
+# simulation_figure_bed, root.simulation_voltage_axis, root.simulation_current_axis = MakeSimulationWindow()
 
 # parameter_frame = MakeParameterFrame()
 parameter_frame = param_frame.ParameterFrame(root)
 
-gating_bed = MakeGatingGraph()
+# gating_bed = MakeGatingGraph()
 
-root.gates_time_graph_bed, root.gates_time_graph_axis = MakeGatesWithTimeWindow()
+# root.gates_time_graph_bed, root.gates_time_graph_axis = MakeGatesWithTimeWindow()
 
 # UpdateSimulationWindow(simulation_plot)
 init_menu()
