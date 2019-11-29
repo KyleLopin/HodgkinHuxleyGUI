@@ -21,7 +21,6 @@ class HodgkinHuxleyModel:
             setattr(self, params, init_params.params)
         print(self.__dict__)
 
-
     def check(self):
         pass
 

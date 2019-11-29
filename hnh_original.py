@@ -13,9 +13,9 @@ import hh_graphs
 import parameter_frame as control_frame
 
 
-class HodgkinHuxleyOriginal(tk.Frame):
-    def __init__(self, master):
-        tk.Frame.__init__(self, master)
+class HodgkinHuxleyOriginal(tk.Tk):
+    def __init__(self, master=None):
+        tk.Tk.__init__(self, master)
 
         self.view = hh_graphs.HHGateFrame(self)
         self.view.pack(fill=tk.BOTH, expand=1, side=tk.LEFT)
@@ -23,9 +23,10 @@ class HodgkinHuxleyOriginal(tk.Frame):
         self.control.pack(side="top", fill="x")
 
 
+
 if __name__ == '__main__':
-    root = tk.Tk()
+    root = HodgkinHuxleyOriginal()
     root.title("Hodgkin and Huxley Simulator")
     root.geometry("1050x800")
-    HodgkinHuxleyOriginal(root)
+
     root.mainloop()
